@@ -21,7 +21,7 @@ if file is not None:
     #df1 = pd.read_excel(file)
     
     # Rename columns if necessary
-    #df  = df1[['CREATE DATE', 'QUANTITY']]
+    df  = df[['CREATE DATE', 'QUANTITY']]
     
     # Convert date column to datetime
     df['CREATE DATE'] = pd.to_datetime(df['CREATE DATE'])
