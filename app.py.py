@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 #import matplotlib.pyplot as plt
 #from statsmodels.tsa.statespace.sarimax import SARIMAX
-from sklearn.metrics import mean_absolute_percentage_error
+#from sklearn.metrics import mean_absolute_percentage_error
 #from statsmodels.tsa.arima.model import ARIMA
 
 st.set_page_config(page_title="Forecasting Pallets")
