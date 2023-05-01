@@ -24,7 +24,7 @@ if file is not None:
     df  = df[['CREATE DATE', 'QUANTITY']]
     
     # Convert date column to datetime
-    df['CREATE DATE'] = pd.to_datetime(df['CREATE DATE'])
+    #df['CREATE DATE'] = pd.to_datetime(df['CREATE DATE'])
     
     # Set date column as index
     df.set_index('CREATE DATE', inplace=True)
