@@ -27,7 +27,7 @@ file = st.file_uploader("Upload Excel", type=["xlsx"])
 
 if file is not None:
     # Read uploaded CSV file
-    df1 = pd.read_excel('C:\\Users\\USER\\Desktop\\project 99\\model deployment by streamlit\\allot_.xlsx')
+    df1 = pd.read_excel(file)
     
     # Rename columns if necessary
     df  = df1[['CREATE DATE', 'QUANTITY']]
