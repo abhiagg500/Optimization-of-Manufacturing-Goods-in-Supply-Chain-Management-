@@ -1,69 +1,38 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Apr 30 18:51:29 2023
+Created on Mon Apr 24 21:39:50 2023
 
 @author: USER
 """
-#pip install streamlit --upgrade
 
-
-
-
-
-import streamlit as st
+from flask import Flask, render_template, request
 import pandas as pd
-import numpy as np
-import datetime as dt
-import pickle
+from statsmodels.tsa.arima.model import ARIMA
 
-#load the model
-model_fit = pickle.load(open('AR_model_final.pkl','rb'))
+app = Flask("Optimization in supply chain management")
 
+# Define routes
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-# Define the forecasting function
-def predict_forecast(date):
-    # Preprocess the input date
-    date = dt.datetime.strptime(date, '%Y-%m-%d')
+@app.route('/predict', methods=['POST'])
+def predict():
+    # Get user input from form
+    input_data = request.form['input_data']
     
-    # Generate the forecast for the next month
-    forecast = model.predict(start=date, end=date+pd.offsets.MonthEnd(1))
+    # Convert input data to pandas dataframe
+    df = pd.read_csv(input_data)
     
-    # Format the forecast result
-    result = f"Forecast for {date.strftime('%B %Y')}: {forecast[0]:.2f} units"
+    # Train ARIMA model
+    model = ARIMA(df['QUANTITY'], order=(1,0,0))
+    model_fit = model.fit()
     
-    return result
-
-# Create the Streamlit app
-st.title("AR Model Forecasting")
-
-# Add an image
-st.image('C:\\Users\\USER\\Desktop\\project 99\\model deployment by streamlit\\pallets.jpg', use_column_width=True)
-
-# Create a date input field
-date_input = st.date_input("Select a date for forecasting", dt.date.today())
-
-# Add a button to trigger the forecasting function
-if st.button("Forecast"):
-    result = predict_forecast(str(date_input))
-    st.write(result)
-
-from typing import Protocol
-
-class MyProtocol(Protocol):
-    def my_method(self) -> str:
-        pass
-
-class MyClass:
-    def my_method(self) -> str:
-        return "Hello, World!"
-
-def my_function(obj: MyProtocol) -> None:
-    print(obj.my_method())
-
-my_obj = MyClass()
-my_function(my_obj)
-
-
+    # Generate predictions
+    predictions = model_fit.predict(start=len(df), end=len(df)+12, dynamic=True)
     
-    
-    
+    # Render template with predictions
+    return render_template('index.html', predictions=predictions)
+
+if __name__ == '__main__':
+    app.run(debug=True)
