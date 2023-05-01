@@ -18,10 +18,10 @@ file = st.file_uploader("Upload Excel", type=["xlsx"])
 
 if file is not None:
     # Read uploaded CSV file
-    df1 = pd.read_excel(file)
+    #df1 = pd.read_excel(file)
     
     # Rename columns if necessary
-    df  = df1[['CREATE DATE', 'QUANTITY']]
+    #df  = df1[['CREATE DATE', 'QUANTITY']]
     
     # Convert date column to datetime
     df['CREATE DATE'] = pd.to_datetime(df['CREATE DATE'])
